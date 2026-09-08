@@ -13,6 +13,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 
+ENV PIP_ROOT_USER_ACTION=ignore
 # Install Python dependencies
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
@@ -20,7 +21,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy agent code and skills
 COPY main.py ./
 COPY schemas.py ./
-COPY skills/ ./skills/
+#COPY skills/ ./skills/
 
 # Foundry hosting runtime (ResponsesHostServer) persists function-approval state
 # and workflow checkpoints to HARD-CODED absolute paths /.function_approvals and
@@ -36,6 +37,7 @@ RUN useradd --create-home appuser && chown -R appuser:appuser /app
 USER appuser
 
 ENV PYTHONUNBUFFERED=1
+
 
 EXPOSE 8088
 
